@@ -1,0 +1,3 @@
+include README.md
+recursive-include htmx_forms/static *
+recursive-include htmx_forms/templates *
