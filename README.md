@@ -17,4 +17,5 @@ Bases on my previous somehow incomplete researches as documented here:
 # Resources
 
 - [Custom Modal Dialogs](https://htmx.org/examples/modal-custom/)
+- [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
 

@@ -1,0 +1,174 @@
+{% extends 'frontend/base.html' %}
+{% load markup %}
+
+{% block content %}
+    <h1>vanilla_js_modal</h1>
+
+{% filter markdown %}
+
+## Explanation:
+
+### HTML Structure:
+
+- A button with id="openModalBtn" to open the modal.
+- A modal with id="myModal", containing a header, body, and footer. The close button is within the header.
+
+### CSS:
+
+- Basic styles for the modal and its content.
+- Additional styles for the modal header and footer.
+- Keyframe animations (fadeIn, slideIn, fadeOut, slideOut) to animate the opening and closing of the modal.
+- Classes (fade-out, slide-out) to apply the closing animations.
+
+### JavaScript:
+
+- Event listeners to handle the opening and closing of the modal.
+- The closeModal function adds the closing animation classes, waits for the animation to complete (using setTimeout), and then hides the modal and removes the animation classes.
+
+This example creates a modal with a header, body, and footer, and includes animations for both opening and closing the modal.
+
+The animations are handled purely with CSS, and JavaScript is used to add and remove the necessary classes to trigger these animations.
+
+
+{% endfilter markdown %}
+
+  <style>
+    /* Basic styling for the modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.4s;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      animation: slideIn 0.4s;
+    }
+
+    .modal-header,
+    .modal-footer {
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #ddd;
+      border-bottom: none;
+    }
+
+    .modal-body {
+      padding: 10px 0;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes slideOut {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-50px); opacity: 0; }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.4s forwards;
+    }
+
+    .slide-out {
+      animation: slideOut 0.4s forwards;
+    }
+  </style>
+
+  <!-- Button to open the modal -->
+  <button id="openModalBtn">Open Modal</button>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Modal Header</h2>
+      </div>
+      <div class="modal-body">
+        <p>This is the modal content.</p>
+      </div>
+      <div class="modal-footer">
+        <h3>Modal Footer</h3>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const modal = document.getElementById("myModal");
+      const btn = document.getElementById("openModalBtn");
+      const span = document.getElementsByClassName("close")[0];
+
+      // Open the modal
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      // Close the modal when the user clicks on <span> (x)
+      span.onclick = function() {
+        closeModal();
+      }
+
+      // Close the modal when the user clicks anywhere outside of the modal
+      window.onclick = function(event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      }
+
+      function closeModal() {
+        modal.classList.add('fade-out');
+        modal.querySelector('.modal-content').classList.add('slide-out');
+
+        setTimeout(() => {
+          modal.style.display = "none";
+          modal.classList.remove('fade-out');
+          modal.querySelector('.modal-content').classList.remove('slide-out');
+        }, 400); // Match this duration with the animation duration
+      }
+    });
+  </script>
+
+{% endblock content %}
