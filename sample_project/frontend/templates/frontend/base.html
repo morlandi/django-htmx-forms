@@ -12,12 +12,13 @@
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block content %}
         {% endblock content %}
+
+        {% block extrajavascript %}
+            <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
+            <script src="{% static 'common.js' %}"></script>
+            <script src="{% static 'frontend/scripts.js' %}"></script>
+        {% endblock extrajavascript %}
     </body>
 </html>
 
 
-{% block extrahead %}
-    <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
-    <script src="{% static 'common.js' %}"></script>
-    <script src="{% static 'frontend/scripts.js' %}"></script>
-{% endblock extrahead %}

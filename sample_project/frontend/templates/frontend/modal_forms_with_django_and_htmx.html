@@ -1,0 +1,69 @@
+{% extends 'frontend/base.html' %}
+{% load markup %}
+
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+{% endblock extrastyle %}
+
+
+{% block extrajavascript %}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"> </script>
+    <script>
+        const modal = new bootstrap.Modal(document.getElementById("modal"))
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id == "dialog") {
+                modal.show()
+            }
+        })
+
+        htmx.on("htmx:beforeSwap", (e) => {
+            // Empty response targeting #dialog => hide the modal
+            if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+                modal.hide()
+                e.detail.shouldSwap = false
+            }
+        })
+
+        htmx.on("hidden.bs.modal", () => {
+            document.getElementById("dialog").innerHTML = ""
+        })
+    </script>
+{% endblock extrajavascript %}
+
+{% block content %}
+    <h1>modal_forms_with_django_and_htmx</h1>
+{% filter markdown %}
+
+## Resources
+
+- [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
+- [Sources (on Github)](https://github.com/bblanchon/django-htmx-modal-form)
+- [Modal forms with Django+HTMX (video)](https://www.youtube.com/watch?v=3dyQigrEj8A&ab_channel=BenoitBlanchon)
+
+See also:
+
+- [DiangoTricks: How to Handle Django Forms within Modal Dialogs](https://djangotricks.blogspot.com/2022/10/how-to-handle-django-forms-within-modal-dialogs.html)
+
+{% endfilter markdown %}
+
+    <button hx-get="{% url 'frontend:add_user' %}" hx-target="#dialog">
+        Add a User
+    </button>
+    <br />
+    <br />
+    <br />
+
+    <div hx-trigger="load, userListChanged from:body" hx-get="{% url 'frontend:user_list' %}" hx-target="this">
+    </div>
+
+    <div id="modal" class="modal fade">
+        <div id="dialog" class="modal-dialog" hx-target="this"></div>
+    </div>
+
+
+{% endblock content %}
+
