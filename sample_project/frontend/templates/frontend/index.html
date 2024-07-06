@@ -1,0 +1,11 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>index</h1>
+
+    <div>
+        <button hx-post="{% url 'backend:j-htmx_click_test' %}" hx-swap="outerHTML">
+           &lt;<b style="color: #3D72D7;">/</b>&gt; htm<b style="color: #3D72D7;">x</b> test
+        </button>
+    </div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+
+{% block sidebar %}
+    {{ block.super }}
+
+    <div hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        <div>
+            <button hx-post="{% url 'backend:j-htmx_click_test' %}" hx-swap="outerHTML">
+               &lt;<b style="color: #3D72D7;">/</b>&gt; htm<b style="color: #3D72D7;">x</b> test
+            </button>
+        </div>
+    </div>
+
+{% endblock sidebar %}

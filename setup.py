@@ -18,7 +18,7 @@ readme = open('README.md').read()
 history = open('CHANGELOG.md').read().replace('.. :changelog:', '')
 
 
-setup(name='django-frontend-forms',
+setup(name='django-htmx-forms',
       version=version,
       description='A Django helper app to add editing capabilities to the frontend using Django, HTMX and modal forms.',
       long_description=readme + '\n\n' + history,

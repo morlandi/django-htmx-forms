@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>sample project</title>
+        {% block extrastyle %}
+            <link rel='stylesheet' href="{% static 'common.css' %}" type="text/css" charset="utf-8">
+            <link rel="stylesheet" href="{% static 'frontend/style.css' %}">
+        {% endblock extrastyle %}
+    </head>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>
+
+
+{% block extrahead %}
+    <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
+    <script src="{% static 'common.js' %}"></script>
+    <script src="{% static 'frontend/scripts.js' %}"></script>
+{% endblock extrahead %}

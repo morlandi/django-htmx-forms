@@ -1,0 +1,26 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+      <link rel='stylesheet' href="{% static 'common.css' %}" type="text/css" charset="utf-8">
+      <link rel='stylesheet' href="{% static 'admin/custom.css' %}" type="text/css" charset="utf-8">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
+    <script src="{% static 'common.js' %}"></script>
+    <script src="{% static 'admin/custom.js' %}"></script>
+{% endblock extrahead %}
