@@ -11,4 +11,5 @@ urlpatterns = [
     path('modal_forms_with_django_and_htmx/', views.modal_forms_with_django_and_htmx, name="modal_forms_with_django_and_htmx"),
     path('add_user/', views.add_user, name="add_user"),
     path('user_list/', views.user_list, name="user_list"),
+    path('basic_dialog/', views.basic_dialog, name="basic_dialog"),
 ]

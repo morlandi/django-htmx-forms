@@ -1,0 +1,40 @@
+{% extends 'frontend/base.html' %}
+{% load markup %}
+
+{% block content %}
+    <h1>Basic Dialog</h1>
+
+{% filter markdown %}
+{% endfilter markdown %}
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", ready);
+
+    function ready(){
+        dialog1 = new HtmxForms.Dialog({
+            html: '<h1>Loading ...</h1>',
+            url: '/',
+            width: '400px',
+            min_height: '200px',
+            title: '<i class="fa fa-calculator"></i> Selezione Oggetto',
+            footer_text: 'testing dialog ...',
+            enable_trace: true,
+            callback: function(event_name, dialog, params) {
+                switch (event_name) {
+                    case "created":
+                        console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                        break;
+                }
+            }
+        });
+    }
+
+</script>
+
+
+
+
+
+{% endblock content %}
+

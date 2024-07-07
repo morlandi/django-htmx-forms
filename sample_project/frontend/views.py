@@ -49,3 +49,9 @@ def add_user(request):
     })
 
 
+def basic_dialog(request) :
+    return render(
+        request,
+        'frontend/basic_dialog.html', {
+        }
+    )

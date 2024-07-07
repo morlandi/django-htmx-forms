@@ -10,11 +10,21 @@
         {% endblock extrastyle %}
     </head>
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-        {% block content %}
-        {% endblock content %}
+
+        <div class="breadcrumbs">
+            <a href="/">home</a>
+            {% if user.is_staff %}
+                | <a href="/admin">admin</a>
+            {% endif %}
+        </div>
+        <div class="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
 
         {% block extrajavascript %}
             <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
+            <script src="{% static 'django_htmx_forms.js' %}"></script>
             <script src="{% static 'common.js' %}"></script>
             <script src="{% static 'frontend/scripts.js' %}"></script>
         {% endblock extrajavascript %}
