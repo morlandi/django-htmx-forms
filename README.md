@@ -32,11 +32,13 @@ In this context, our main objectives are:
 - the content and life cycle of the dialog can be controlled "server-side"
 - the dialog will close when the user has completed or cancelled the operation
 
-The solution suggested by `django-htmx-forms` requires two actions:
+**The solution suggested by `django-htmx-forms` requires two actions:**
 
+```
 1) provide an HTML template for the dialog layout
 
 2) attach the template to a `Dialog()` javascript object to control it's behaviour
+```
 
 Since in most cases you will be primarily interested in customizing the modal
 content only, a default template is provided to render a generic dialog
