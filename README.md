@@ -233,48 +233,43 @@ while the "outer" one renders the full page:
 
 ## Dialog methods
 
-=============================== ===================================================================================================================
-Method                          Effects
-------------------------------- -------------------------------------------------------------------------------------------------------------------
-constructor(options={})         See `options` list below
-open(event=null, show=true)     Open the dialog
-
-                                1. the dialog body will be immediately loaded with static content provided by option "html"
-                                2. then the dialog is shown (unless the "show" parameter is false)
-                                3. finally, dynamic content will be loaded from remote address provided by option "url" (if supplied)
-                                4. if successfull, a 'loaded.dialog' event is fired; you can use it to perform any action required after loading
-
-close()                         Close (hide) the dialog
-show()                          Make the dialog visible
-
-=============================== ===================================================================================================================
+| Method                          | Effects                                                                                                            |
+| --------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| constructor(options={})         | See `options` list below                                                                                           |
+| open(event=null, show=true)     | Open the dialog                                                                                                    |
+|                                 |                                                                                                                    |
+|                                 | 1. the dialog body will be immediately loaded with static content provided by option "html"                        |
+|                                 | 2. then the dialog is shown (unless the "show" parameter is false)                                                 |
+|                                 | 3. finally, dynamic content will be loaded from remote address provided by option "url" (if supplied)              |
+|                                 | 4. if successfull, a 'loaded.dialog' event is fired; you can use it to perform any action required after loading   |
+|                                 |                                                                                                                    |
+| close()                         | Close (hide) the dialog                                                                                            |
+| show()                          | Make the dialog visible                                                                                            |
 
 
 ## Dialog options
 
-=============================== ========================== ===============================================================
-Option                          Default value              Notes
-------------------------------- -------------------------- ---------------------------------------------------------------
-dialog_selector                 '#dialog_generic'          The selector for HTML dialog template
-open_event                      null                       Used to "remember" the event which triggered Dialog opening
-html                            ''                         Static content to display in dialog body
-url                             ''                         Optional url to retrieve dialog content via Ajax
-width                           null
-min_width                       null
-max_width                       null
-height                          null
-min_height                      null
-max_height                      null
-button_save_label               'Save'
-button_save_initially_hidden    false                      Will be shown after form rendering
-button_close_label              'Cancel'
-title                           ''
-subtitle                        ''
-footer_text                     ''
-enable_trace                    false                      show notifications in debug console
-callback                        null                       a callback to receive events
-autofocus_first_visible_input   true
-=============================== ========================== ===============================================================
+| Option                          | Default value              | Notes                                                          |
+|---------------------------------|----------------------------|----------------------------------------------------------------|
+| dialog_selector                 | '#dialog_generic'          | The selector for HTML dialog template                          |
+| open_event                      | null                       | Used to "remember" the event which triggered Dialog opening    |
+| html                            | ''                         | Static content to display in dialog body                       |
+| url                             | ''                         | Optional url to retrieve dialog content via Ajax               |
+| width                           | null                       |                                                                |
+| min_width                       | null                       |                                                                |
+| max_width                       | null                       |                                                                |
+| height                          | null                       |                                                                |
+| min_height                      | null                       |                                                                |
+| max_height                      | null                       |                                                                |
+| button_save_label               | 'Save'                     |                                                                |
+| button_save_initially_hidden    | false                      | Will be shown after form rendering                             |
+| button_close_label              | 'Cancel'                   |                                                                |
+| title                           | ''                         |                                                                |
+| subtitle                        | ''                         |                                                                |
+| footer_text                     | ''                         |                                                                |
+| enable_trace                    | false                      | show notifications in debug console                            |
+| callback                        | null                       | a callback to receive events                                   |
+| autofocus_first_visible_input   | true                       |                                                                |
 
 Unspecified options will be retrieved from corresponding HTML attributes on the
 element which fires the dialog opening;
@@ -290,43 +285,24 @@ for example:
 </a>
 ```
 
-=============================== ==========================
-Option                          HTML attribute
-------------------------------- --------------------------
-url                             href
-html                            data-html
-width                           data-width
-min_width                       data-min-width
-max_width                       data-max-width
-height                          data-height
-min_height                      data-min-height
-max_height                      data-max-height
-button_save_label               data-button-save-label
-button_close_label              data-button-close-label
-title                           data-title
-subtitle                        data-subtitle
-footer_text                     data-footer-text
-=============================== ==========================
+| Option                        | HTML attribute           |
+|-------------------------------|--------------------------|
+| url                           | href                     |
+| html                          | data-html                |
+| width                         | data-width               |
+| min_width                     | data-min-width           |
+| max_width                     | data-max-width           |
+| height                        | data-height              |
+| min_height                    | data-min-height          |
+| max_height                    | data-max-height          |
+| button_save_label             | data-button-save-label   |
+| button_close_label            | data-button-close-label  |
+| title                         | data-title               |
+| subtitle                      | data-subtitle            |
+| footer_text                   | data-footer-text         |
 
 
 ## Dialog notifications
-
-============================  ================================
-event_name                    params
-============================  ================================
-created                       options
-closed
-initialized
-shown
-loading                       url
-loaded                        url, data
-loading_failed                jqXHR, textStatus, errorThrown
-open
-submitting                    method, url, data
-submission_failure            method, url, data
-submitted                     method, url, data
-============================  ================================
-
 
 | event_name                    | params                            |
 |-------------------------------|-----------------------------------|
@@ -341,16 +317,6 @@ submitted                     method, url, data
 | submitting                    | method, url, data                 |
 | submission_failure            | method, url, data                 |
 | submitted                     | method, url, data                 |
-
-
-
-
-| Column 1 | Column 2 | Column 3 |
-|----------|----------|----------|
-| Row 1    | Cell 2   | Cell 3   |
-| Row 2    | Cell 5   | Cell 6   |
-| Row 3    | Cell 8   | Cell 9   |
-
 
 
 During it's lifetime, the Dialog will notify all interesting events to the caller,
