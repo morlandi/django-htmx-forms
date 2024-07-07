@@ -40,30 +40,30 @@ pip install git+https://github.com/morlandi/django-htmx-forms
 In your settings, add:
 
 ```python
-    INSTALLED_APPS = [
-        ...
-        'htmx_forms',
-    ]
+INSTALLED_APPS = [
+    ...
+    'htmx_forms',
+]
 ```
 
 Include library's views mapping (file `urls.py`):
 
 
 ```python
-    urlpatterns = [
-        ...
-        path('htmx_forms/', include('htmx_forms.urls', namespace='htmx_forms')),
-        ...
+urlpatterns = [
+    ...
+    path('htmx_forms/', include('htmx_forms.urls', namespace='htmx_forms')),
+    ...
 ```
 
 In your base template, include: the default styles, the javascript support,
 and optionally the sample HTML template:
 
 ```html
-    <link rel='stylesheet' href="{% static 'htmx_forms.css' %}">
-    <script src="{% static 'htmx_forms.js' %}"></script>
+<link rel='stylesheet' href="{% static 'htmx_forms.css' %}">
+<script src="{% static 'htmx_forms.js' %}"></script>
 
-    {% include 'htmx_forms/dialogs.html' %}
+{% include 'htmx_forms/dialogs.html' %}
 ```
 
 # Modals with Django
