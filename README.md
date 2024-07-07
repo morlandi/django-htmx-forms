@@ -233,18 +233,20 @@ while the "outer" one renders the full page:
 
 ## Dialog methods
 
-| Method                          | Effects                                                                                                            |
-| --------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| constructor(options={})         | See `options` list below                                                                                           |
-| open(event=null, show=true)     | Open the dialog                                                                                                    |
-|                                 |                                                                                                                    |
-|                                 | 1. the dialog body will be immediately loaded with static content provided by option "html"                        |
-|                                 | 2. then the dialog is shown (unless the "show" parameter is false)                                                 |
-|                                 | 3. finally, dynamic content will be loaded from remote address provided by option "url" (if supplied)              |
-|                                 | 4. if successfull, a 'loaded.dialog' event is fired; you can use it to perform any action required after loading   |
-|                                 |                                                                                                                    |
-| close()                         | Close (hide) the dialog                                                                                            |
-| show()                          | Make the dialog visible                                                                                            |
+| Method                          | Effects                   |
+| --------------------------------|---------------------------|
+| constructor(options={})         | See `options` list below  |
+| open(event=null, show=true)     | Open the dialog [1]       |
+| close()                         | Close (hide) the dialog   |
+| show()                          | Make the dialog visible   |
+
+[1] open():
+
+1. the dialog body will be immediately loaded with static content provided by option "html"
+2. then the dialog is shown (unless the "show" parameter is false)
+3. finally, dynamic content will be loaded from remote address provided by option "url" (if supplied)
+4. if successfull, a 'loaded.dialog' event is fired; you can use it to perform any action required after loading
+
 
 
 ## Dialog options
