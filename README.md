@@ -327,6 +327,32 @@ submission_failure            method, url, data
 submitted                     method, url, data
 ============================  ================================
 
+
+| event_name                    | params                            |
+|-------------------------------|-----------------------------------|
+| created                       | options                           |
+| closed                        |                                   |
+| initialized                   |                                   |
+| shown                         |                                   |
+| loading                       | url                               |
+| loaded                        | url, data                         |
+| loading_failed                | jqXHR, textStatus, errorThrown    |
+| open                          |                                   |
+| submitting                    | method, url, data                 |
+| submission_failure            | method, url, data                 |
+| submitted                     | method, url, data                 |
+
+
+
+
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Row 1    | Cell 2   | Cell 3   |
+| Row 2    | Cell 5   | Cell 6   |
+| Row 3    | Cell 8   | Cell 9   |
+
+
+
 During it's lifetime, the Dialog will notify all interesting events to the caller,
 provided he supplies a suitable callback in the contructor:
 
