@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <form method="post"{% if action %} action="{{ action }}"{% endif %} class="form{% if form_class %} {{form.form_class}}{% endif %}" novalidate autocomplete="off"{% if form.form_enctype %} enctype="{{form.form_enctype}}"{% endif %}>
+            {% csrf_token %}
+            {{ form }}
+            <input type="hidden" name="object_id" value="{{ object.id|default:'' }}">
+            <div class="form-submit-row">
+                <input type="submit" value="{% trans 'Save' %}" />
+            </div>
+        </form>
+    </div>
+</div>

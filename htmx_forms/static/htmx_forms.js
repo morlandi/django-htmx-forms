@@ -379,7 +379,10 @@ window.HtmxForms = (function() {
             let btn_save = footer.querySelector('.btn-save');
             if (self.options.button_save_label !== null && btn_save) {
 
-                form.querySelector('.form-submit-row').style.display = 'none';
+                let submit_row = form.querySelector('.form-submit-row');
+                if (submit_row) {
+                    submit_row.style.display = 'none';
+                }
                 //btn_save.off().on('click', function(event) {
                 //    form.submit();
                 //});
@@ -434,7 +437,7 @@ window.HtmxForms = (function() {
                 self._notify('submitting', {method: method, url: url, data:data});
 
                 let promise = fetch(
-                    self.options.url, {
+                    url, {
                         method: method,
                         body: data,
                         mode: 'cors',   // 'no-cors',
@@ -599,6 +602,41 @@ window.HtmxForms = (function() {
         window.location.reload(true);
     }
 
+    function overlay_show(element) {
+        /*
+            Requires:
+
+                {% include 'frontend_forms/overlay.html' %}
+
+            References:
+                - "Custom Loading Animation on Fetch Call in Vanilla Javascript / CSS / HTML 5", at:
+                  https://dev.to/hariseldon27/custom-loading-animation-on-fetch-call-in-vanilla-javascript-css-html-5-1a9n
+                - "SVG Spinners collection", at:
+                  https://github.com/n3r4zzurr0/svg-spinners
+        */
+        let overlay = document.querySelector('#htmx_forms_overlay');
+        if (overlay !== null) {
+            overlay.style.display = 'block';
+        }
+        else {
+            console.error('Overlay "#htmx_forms_overlay" not found. Did you forget to include "htmx_forms/overlay.html" ?');
+        }
+    }
+
+    function overlay_hide(element) {
+        let overlay = document.querySelector('#htmx_forms_overlay');
+        if (overlay !== null) {
+            overlay.style.display = 'none';
+        }
+        else {
+            console.error('Overlay "#htmx_forms_overlay" not found. Did you forget to include "htmx_forms/overlay.html" ?');
+        }
+    }
+
+    function hide_mouse_cursor() {
+        // https://stackoverflow.com/questions/9681080/changing-cursor-to-waiting-in-javascript-jquery#25207986
+        document.querySelector('body').style.cursor = 'none';
+    }
     function getCookie(name) {
         var value = '; ' + document.cookie,
             parts = value.split('; ' + name + '=');
@@ -680,6 +718,8 @@ window.HtmxForms = (function() {
         redirect: redirect,
         gotourl: gotourl,
         reload_page: reload_page,
+        overlay_show: overlay_show,
+        overlay_hide: overlay_hide,
         getCookie: getCookie,
         display_server_error: display_server_error,
         downloadFromAjaxPost: downloadFromAjaxPost

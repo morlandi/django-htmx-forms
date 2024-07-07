@@ -194,8 +194,14 @@ This can be easily accomplished providing:
 
 def simple_content2(request):
 
+    try:
+        is_ajax_request = request.accepts("application/json")
+    except AttributeError as e:
+        # Django < 4.0
+        is_ajax_request = request.is_ajax()
+
     # Either render only the modal content, or a full standalone page
-    if request.is_ajax():
+    if is_ajax_request:
         template_name = 'frontend/includes/simple_content2_inner.html'
     else:
         template_name = 'frontend/includes/simple_content2.html'
@@ -354,10 +360,13 @@ Result:
 You can also trace all events in the console setting the boolean flag `enable_trace`.
 
 
-
-
 # Resources
+
+- [How to implement modal popup django forms with bootstrap](https://www.abidibo.net/blog/2014/05/26/how-implement-modal-popup-django-forms-bootstrap/)
 
 - [Custom Modal Dialogs](https://htmx.org/examples/modal-custom/)
 - [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
+- [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
+- [Modal forms with Django+HTMX (video)](https://www.youtube.com/watch?v=3dyQigrEj8A&ab_channel=BenoitBlanchon)
+- [DiangoTricks: How to Handle Django Forms within Modal Dialogs](https://djangotricks.blogspot.com/2022/10/how-to-handle-django-forms-within-modal-dialogs.html)
 

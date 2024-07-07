@@ -1,0 +1,154 @@
+/*
+    "How To Create a Modal Box":;
+    https://www.w3schools.com/howto/howto_css_modals.asp
+*/
+
+
+/* The Modal (background) */
+.dialog {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    /* background-color: rgba(0,0,0,0.4); */
+    background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
+
+}
+
+.dialog.draggable .dialog-header {
+    cursor: move;
+}
+
+/* Modal Content/Box */
+.dialog .dialog-content {
+    background-color: #fefefe;
+    padding: 0;
+    border: 2px solid #333;
+    /*width: 600px;*/
+    box-shadow: 5px 5px 10px #666;
+
+    /* 15% from the top and centered */
+     /*margin: 15% auto;*/
+     margin: 80px auto;
+
+    /* Center in screen */
+    /*
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    */
+
+    border-radius: 6px;
+    overflow:  hidden;
+}
+
+.dialog .dialog-content .dialog-header {
+    /*height: 40px;*/
+    background-color: #999;
+    color: white;
+    padding: 12px;
+    border-radius: 4px 4px 0 0;
+}
+
+.dialog .dialog-content .dialog-header .title {
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+}
+
+.dialog .dialog-content .dialog-header .subtitle {
+    font-size: 12px;
+    color: white;
+}
+
+.dialog .dialog-header .spinner {
+    float: left;
+    padding: 0;
+    margin: -8px 8px 0 0;
+    font-size: 26px;
+    color: white;
+    /*visibility: hidden;*/
+    display: none;
+}
+
+.dialog .dialog-header.loading .spinner {
+    /*visibility: visible;*/
+    display: block;
+}
+
+.dialog .dialog-content .dialog-footer {
+    /*height: 40px;*/
+    background-color: #999;
+    color: white;
+    padding: 12px;
+    border-radius: 0 0 4px 4px;
+    margin-bottom: -1px;
+}
+
+.dialog .dialog-content .dialog-footer input[type="submit"] {
+    float: right;
+    margin-top: -5px;
+    margin-left: 8px;
+    /*border-radius: 4px;*/
+    height: 30px;
+    line-height: 10px;
+}
+
+.dialog .dialog-content .dialog-footer .btn {
+    min-width: 100px;
+    border-radius: 4px; /* !important; */
+    border: none;
+    background-color: #333; /* !important; */
+    color: #fff;
+}
+
+.dialog .dialog-content .dialog-footer .btn-close {
+    background-color: #ccc; /* !important; */
+    color: #333;
+}
+
+.dialog .dialog-content .dialog-body {
+    /*height: 400px;*/
+    padding: 12px;
+}
+
+/* The Close Button */
+.dialog .dialog-header .close {
+    color: #fff;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -4px; /* !important; */
+}
+
+.dialog .dialog-header .close:hover,
+.dialog .dialog-header .close:focus {
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Remove Safari/Chrome textinput/textarea glow */
+.dialog input:focus {
+    box-shadow: none;
+}
+
+/* input-group-addon reasonable defaults */
+.dialog form .input-group-addon {
+    background-color: #fff;
+    border: 1px solid #E5E6E7;
+    border-radius: 1px;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    padding: 9px 12px;
+    text-align: center;
+}
+

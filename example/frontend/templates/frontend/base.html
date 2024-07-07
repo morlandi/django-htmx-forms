@@ -1,12 +1,13 @@
-{% load static %}
+{% load static django_htmx %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>sample project</title>
+        <link rel="stylesheet" href="{% static 'htmx_forms.css' %}">
+        <link rel='stylesheet' href="{% static 'common.css' %}" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="{% static 'frontend/style.css' %}">
         {% block extrastyle %}
-            <link rel='stylesheet' href="{% static 'common.css' %}" type="text/css" charset="utf-8">
-            <link rel="stylesheet" href="{% static 'frontend/style.css' %}">
         {% endblock extrastyle %}
     </head>
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
@@ -17,17 +18,36 @@
                 | <a href="/admin">admin</a>
             {% endif %}
         </div>
+
+        {% block messages %}
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li class="alert alert-{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endblock messages %}
+
         <div class="content">
             {% block content %}
             {% endblock content %}
         </div>
 
+        {% block modals %}
+            {% include 'htmx_forms/dialogs.html' %}
+        {% endblock modals %}
+        {% include 'htmx_forms/overlay.html' %}
+
+        <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
+        <script src="{% static 'htmx_forms.js' %}"></script>
+        <script src="{% static 'common.js' %}"></script>
+        <script src="{% static 'frontend/scripts.js' %}"></script>
+
         {% block extrajavascript %}
-            <script src="{% static 'htmx.org/dist/htmx.js' %}"></script>
-            <script src="{% static 'django_htmx_forms.js' %}"></script>
-            <script src="{% static 'common.js' %}"></script>
-            <script src="{% static 'frontend/scripts.js' %}"></script>
         {% endblock extrajavascript %}
+
+        {% django_htmx_script %}
     </body>
 </html>
 

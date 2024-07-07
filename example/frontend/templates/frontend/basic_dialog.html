@@ -11,10 +11,10 @@
 
     document.addEventListener("DOMContentLoaded", ready);
 
-    function ready(){
+    function ready() {
+
         dialog1 = new HtmxForms.Dialog({
-            html: '<h1>Loading ...</h1>',
-            url: '/',
+            html: '<h1>A static dialog</h1>',
             width: '400px',
             min_height: '200px',
             title: '<i class="fa fa-calculator"></i> Selezione Oggetto',
@@ -28,13 +28,35 @@
                 }
             }
         });
+
+        dialog2 = new HtmxForms.Dialog({
+            html: '<h1>Loading ...</h1>',
+            url: '/popup/',
+            width: '400px',
+            min_height: '200px',
+            title: '<i class="fa fa-calculator"></i> Selezione Oggetto',
+            footer_text: 'testing dialog ...',
+            enable_trace: true,
+            callback: function(event_name, dialog, params) {
+                switch (event_name) {
+                    case "created":
+                        console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                        break;
+                    case "submitted":
+                        HtmxForms.reload_page(show_layer=true);
+                        break;
+                }
+            }
+        });
+
     }
 
 </script>
 
 
+<a href="" onclick="dialog1.open(event); return false;">Test Static Dialog</a><br />
 
-
+<a href="/popup/" onclick="dialog2.open(event); return false;">Test Form submission</a>
 
 {% endblock content %}
 
