@@ -1,9 +1,4 @@
 
-> This project is still in early construction and largely incomplete.
-
-> Do not use in production at this time.
-
-
 # django-htmx-forms
 
 Adding editing capabilities to the frontend in a modern user interface requires the usage of modal forms.
