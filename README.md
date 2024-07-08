@@ -359,7 +359,6 @@ You can also trace all events in the console setting the boolean flag `enable_tr
 
 
 # Forms submission
-============================
 
 We've successfully injected data retrieved from the server in our modals,
 but did not really interact with the user yet.
