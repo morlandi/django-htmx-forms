@@ -31,7 +31,7 @@ setup(name='django-htmx-forms',
       packages=find_packages(),
       zip_safe=False,
       classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Framework :: Django',

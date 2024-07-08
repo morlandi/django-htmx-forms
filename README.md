@@ -554,9 +554,6 @@ where the url "/form_submission_example/" point to the following view:
 ```python
 
 def form_submission_example(request):
-    time.sleep(1)
-    is_ajax_request = request.accepts("application/json")
-
     if request.method == 'POST':
         form = SimpleForm(data=request.POST)
         if form.is_valid():
@@ -585,6 +582,34 @@ class SimpleForm(forms.Form):
         return value
 ```
 
+In the following variation, the save view can be used to render and validate the
+form both in a modal or in a standalone page:
+
+```python
+def form_submission_example(request):
+    is_ajax_request = request.accepts("application/json")
+
+    # Either render only the modal content, or a full standalone page
+    if is_ajax_request:
+        template_name = 'htmx_forms/generic_form_inner.html'
+    else:
+        template_name = 'htmx_forms/generic_form.html'
+
+    if request.method == 'POST':
+        form = SimpleForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            if not is_ajax_request:
+                messages.info(request, "Form has been validated")
+            else:
+                return HttpResponse("<h1>Great !</h1> Your form has been validated")
+    else:
+        form = SimpleForm()
+
+    return render(request, template_name, {
+        'form': form,
+    })
+```
 
 # HTMX
 
@@ -600,15 +625,11 @@ the same results writing less javascript.
 
 
 
-
-
-
 # Resources
 
 - [Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
 - [How to implement modal popup django forms with bootstrap](https://www.abidibo.net/blog/2014/05/26/how-implement-modal-popup-django-forms-bootstrap/)
 - [Custom Modal Dialogs](https://htmx.org/examples/modal-custom/)
-- [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
 - [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
 - [Modal forms with Django+HTMX (video)](https://www.youtube.com/watch?v=3dyQigrEj8A&ab_channel=BenoitBlanchon)
 - [DiangoTricks: How to Handle Django Forms within Modal Dialogs](https://djangotricks.blogspot.com/2022/10/how-to-handle-django-forms-within-modal-dialogs.html)
