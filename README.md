@@ -5,7 +5,7 @@ Adding editing capabilities to the frontend in a modern user interface requires 
 
 django-htmx-forms is a package which provides tools for working with modal popups, form submission and validation via ajax in a Django project.
 
-I also took the chance to take a closer look at htmx, a JavaScript framework that handles Ajax communication based on custom HTML attributes.
+I also took the chance to take a closer look at [HTMX](https://htmx.org/), a JavaScript framework that handles Ajax communication based on custom HTML attributes.
 
 
 django-htmx-forms does not require jQuery, nor Bootstrap or other frameworks;
@@ -73,7 +73,7 @@ In this context, our main objectives are:
 ```
 1) provide an HTML template for the dialog layout
 
-2) attach the template to a `Dialog()` javascript object to control it's behaviour
+2) attach the template to a `HtmxForms.Dialog()` javascript object to control it's behaviour
 ```
 
 Since in most cases you will be primarily interested in customizing the modal
@@ -107,13 +107,13 @@ file: `htmx_forms/templates/htmx_forms/dialogs.html`:
 </div>
 ```
 
-When instantiating the javascript `Dialog` object, you can select an alternative
+When instantiating the javascript `HtmxForms.Dialog` object, you can select an alternative
 template instead, providing a suitable value for `djalog_selector`:
 
 ```javascript
 document.addEventListener("DOMContentLoaded", function() {
 
-    dialog1 = new Dialog({
+    dialog1 = new HtmxForms.Dialog({
         dialog_selector: '#dialog_generic',
         html: '<h1>Loading ...</h1>',
         width: '400px',
@@ -130,21 +130,21 @@ It is advisable to use an HTML structure similar to the default layout;
 Notes:
 
 - adding ".ui-front" to the ".dialog-box" element helps improving the behaviour of the dialog on a mobile client
-- adding class ".draggable" makes the Dialog draggable - this is optional, ~~and requires jquery-ui~~ **TODO: MUST RESTORE THIS WITH VANILLA JS**
+- adding class ".draggable" makes the Dialog draggable - this is optional, ~~and requires jquery-ui~~ **TODO: NEED TO RESTORE THIS WITH VANILLA JS**
 
 
 ## Opening a Dialog
 
 ### A static Dialog
 
-The layout of the Dialog is fully described by the referenced HTML template:
-either the default "#dialog_generic" of a specific one.
+The layout of the Dialog is fully determined by the referenced HTML template:
+either the default "#dialog_generic" of a custom one.
 
-You can fully customize the rendering with CSS; the default styles are provided
+You can further customize the rendering with CSS; the default styles are provided
 by `htmx_forms/static/htmx_forms.css`
 
 ```javascript
-dialog1 = new Dialog({
+dialog1 = new HtmxForms.Dialog({
     dialog_selector: '#dialog_generic',
     html: '<h1>Static content goes here ...</h1>',
     width: '600px',
@@ -166,15 +166,15 @@ and it will be automatically used to obtain the Dialog content
 from the server via an Ajax call.
 
 ```javascript
-dialog1 = new Dialog({
+dialog1 = new HtmxForms.Dialog({
     ...
-    url: "/some-content/",
+    url: "/some-remote-endpoint/",
     ...
 ```
 
 ## Modal and/or standalone pages
 
-Sometimes it is convenient to reuse the very same single view to render either a
+Sometimes it is convenient to reuse the same view to render either a
 modal dialog, or a standalone HTML page.
 
 This can be easily accomplished providing:
@@ -203,7 +203,7 @@ def simple_content2(request):
     })
 ```
 
-here, the "inner" template provides the content:
+here, the "inner" template provides the content; for example:
 
 ```html
 <div class="row">
@@ -243,7 +243,7 @@ while the "outer" one renders the full page:
 
 1. the dialog body will be immediately loaded with static content provided by option "html"
 2. then the dialog is shown (unless the "show" parameter is false)
-3. finally, dynamic content will be loaded from remote address provided by option "url" (if supplied)
+3. then, dynamic content will be loaded from remote address provided by option "url" (if supplied)
 4. if successfull, a 'loaded.dialog' event is fired; you can use it to perform any action required after loading
 
 
@@ -253,7 +253,7 @@ while the "outer" one renders the full page:
 | Option                          | Default value              | Notes                                                          |
 |---------------------------------|----------------------------|----------------------------------------------------------------|
 | dialog_selector                 | '#dialog_generic'          | The selector for HTML dialog template                          |
-| open_event                      | null                       | Used to "remember" the event which triggered Dialog opening    |
+| open_event                      | null                       | Used to "remember" the event which triggered Dialog opening and the associated target    |
 | html                            | ''                         | Static content to display in dialog body                       |
 | url                             | ''                         | Optional url to retrieve dialog content via Ajax               |
 | width                           | null                       |                                                                |
@@ -272,7 +272,7 @@ while the "outer" one renders the full page:
 | callback                        | null                       | a callback to receive events                                   |
 | autofocus_first_visible_input   | true                       |                                                                |
 
-Unspecified options will be retrieved from corresponding HTML attributes on the
+Unspecified options will be retrieved from corresponding HTML attributes from the
 element which fires the dialog opening;
 
 for example:
@@ -281,7 +281,7 @@ for example:
 <a href="{% url 'frontend:whatever' object.id %}"
    data-title="My title"
    data-subtitle="My Subtitle"
-   onclick="new Dialog().open(event); return false;">
+   onclick="new HtmxForms.Dialog().open(event); return false;">
         Open
 </a>
 ```
@@ -328,7 +328,7 @@ provided he supplies a suitable callback in the contructor:
 Example:
 
 ```javascript
-dialog1 = new Dialog({
+dialog1 = new HtmxForms.Dialog({
     ...
     callback: function(event_name, dialog, params) {
         console.log('event_name: %o, dialog: %o, params: %o', event_name, dialog, params);
@@ -390,7 +390,7 @@ are detected, and dismisses it only when the form validation finally succeedes.
 
 If you're curious, here below is a detailed explanation of how all this is achieved.
 
-Form detection happens after loading the remote content from the servder:
+Form detection happens after loading the remote content from the server:
 
 ```javascript
 ... fetch ...
@@ -406,7 +406,7 @@ Form detection happens after loading the remote content from the servder:
 ```
 
 
-In case, the code triggers a call to the helper method `_form_ajax_submit()`,
+In this case, the code triggers a call to the helper method `_form_ajax_submit()`,
 which is the real workhorse.
 
 I developed it adapting the inspiring ideas presented in the brilliant article: [Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
@@ -418,9 +418,8 @@ We start by taking care of the submit button embedded in the form.
 While it's useful and necessary for the rendering of the form in a standalone page, it's
 rather disturbing in the modal dialog.
 
-So, we'll hide it, and use the "Save" button from the footer instead;
-here, the convention used is that the button is characterized by the class `form-submit-row`.
-
+So we look for it in the element conventionally identified by the class `form-submit-row`,
+and if found we will hide and replace it with the "Save" button from the modal footer.
 
 ```javascript
 // use footer save button, if available
@@ -479,11 +478,9 @@ repeat the whole process or close the dialog:
 ```javascript
 ...
 if (form.querySelectorAll('.has-error').length > 0 || form.querySelectorAll('.errorlist').length > 0) {
-    self._notify('loaded', {url: url});
     self._form_ajax_submit(true);
 } else {
     // otherwise, we've done and can close the modal
-    self._notify('submitted', {method: method, url: url, data: data});
     self.close();
 }
 ```
@@ -505,12 +502,12 @@ thus giving to the user a chance to read your feedback.
 
 ### Example
 
-In the following example, a form is rendered is a modal and later submitted,
-taking care of form validation as describe above.
+In the following example, a form is rendered is a modal and later submitted;
+form validation will happen as described above.
 
 When the form validates, the user receives a feedback and the modal can be dismissed.
 
-The whole life cycle of the modal is fully controlled by the server.
+Note that the whole life cycle of the modal is fully controlled by the server.
 
 ```html
 <a href="/form_submission_example/" onclick="dialog1.open(event); return false;">Form submission and validation ...</a>
@@ -544,7 +541,7 @@ or, equivalently:
 </a>
 ```
 
-where the url "/form_submission_example/" point to the following view:
+where the url "/form_submission_example/" points to the following view:
 
 ```python
 
@@ -577,7 +574,7 @@ class SimpleForm(forms.Form):
         return value
 ```
 
-In the following variation, the save view can be used to render and validate the
+In the following variation, the same view can be used to render and validate the
 form both in a modal or in a standalone page:
 
 ```python
