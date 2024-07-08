@@ -414,18 +414,17 @@ Form detection happens after loading the remote content from the servder:
 In case, the code triggers a call to the helper method `_form_ajax_submit()`,
 which is the real workhorse.
 
-I developed it adapting the inspiring ideas presented in this brilliant article:
+I developed it adapting the inspiring ideas presented in the brilliant article: [Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
 
-[Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
-
-The full code can fount in the source file `htmx_forms.js`;
+The full code can found in the source file `htmx_forms.js`;
 here below I will briefly summarize a simplified form of the most significant steps.
 
 We start by taking care of the submit button embedded in the form.
-While it's useful and necessary for the rendering of a standalone page, it's
+While it's useful and necessary for the rendering of the form in a standalone page, it's
 rather disturbing in the modal dialog.
 
-So, we'll hide it, and use the "Save" button from the footer instead.
+So, we'll hide it, and use the "Save" button from the footer instead;
+here, the convention used is that the button is characterized by the class `form-submit-row`.
 
 
 ```javascript
@@ -511,7 +510,7 @@ thus giving to the user a chance to read your feedback.
 
 ### Example
 
-
+*TODO ...*
 
 
 
@@ -525,24 +524,15 @@ thus giving to the user a chance to read your feedback.
 
 # HTMX
 
-The solutions presented to far do not require HTMX.
+**The solutions discussed so far do not require HTMX**.
 
-In some cases, it's appropriate to get rid of unnecessary dependencies.
+This is nice, since in some contexts it's convinient to avoid any external dependencies.
 
 Having said this, we will now investigate how HTML can help us in obtaining
 the same results writing less javascript.
 
 
-
-
-
-
-
-
-
-
-
-
+*TODO ...*
 
 
 
