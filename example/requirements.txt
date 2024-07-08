@@ -1,6 +1,6 @@
 Django==5.0.6
 django-npm==1.0.0
 django-htmx==1.18.0
-#pygments==2.18.0
-#markdown==3.6
+pygments==2.18.0
+markdown==3.6
 -e ../

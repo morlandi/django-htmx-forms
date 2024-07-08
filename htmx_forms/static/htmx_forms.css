@@ -50,7 +50,7 @@
 
 .dialog .dialog-content .dialog-header {
     /*height: 40px;*/
-    background-color: #999;
+    background-color: #336699;
     color: white;
     padding: 12px;
     border-radius: 4px 4px 0 0;
@@ -84,7 +84,7 @@
 
 .dialog .dialog-content .dialog-footer {
     /*height: 40px;*/
-    background-color: #999;
+    background-color: #336699;
     color: white;
     padding: 12px;
     border-radius: 0 0 4px 4px;

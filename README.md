@@ -21,8 +21,6 @@ Based on my previous somehow incomplete researches as documented here:
 - [Editing Django models in the front end](https://editing-django-models-in-the-frontend.readthedocs.io/en/latest/)
 - [Django Frontend Forms](https://github.com/morlandi/django-frontend-forms)
 
-[TOC]
-
 ## Installation
 
 Install the package by running:
@@ -360,13 +358,204 @@ Result:
 You can also trace all events in the console setting the boolean flag `enable_trace`.
 
 
+# Forms submission
+============================
+
+We've successfully injected data retrieved from the server in our modals,
+but did not really interact with the user yet.
+
+When the modal body contains a form, things start to become interesting and tricky.
+
+## Handling form submission
+
+When a form submission is involved, the modal life cycle has to be modified as follows:
+
+- First and foremost, we need to **prevent the form from performing its default submit**.
+
+  If not, after submission we'll be redirected to the form action, outside the context
+  of the dialog.
+
+  We'll do this binding to the form's submit event, where we'll serialize the form's
+  content and sent it to the view for validation via an Ajax call.
+
+- Then, upon a successufull response from the server, **we'll need to further investigate
+  the HTML received**:
+
+    + if it contains any field error, the form did not validate successfully,
+      so we update the modal body with the new form and its errors
+
+    + otherwise, user interaction is completed, and we can finally close the modal
+
+`django-htmx-forms` already takes care of all these needs automatically,
+when a form is detected in the content downloaded from the server.
+
+It keeps refreshing the modal after each submission while validation errors
+are detected, and dismisses it only when the form validation finally succeedes.
+
+## Implementation
+
+If you're curious, here below is a detailed explanation of how all this is achieved.
+
+Form detection happens after loading the remote content from the servder:
+
+```javascript
+... fetch ...
+
+    if (response.ok) {
+        ...
+        let form = self.element.querySelector('.dialog-content .dialog-body form');
+        if (form !== null) {
+            // Manage form
+            self._form_ajax_submit();
+        }
+    }
+```
+
+
+In case, the code triggers a call to the helper method `_form_ajax_submit()`,
+which is the real workhorse.
+
+I developed it adapting the inspiring ideas presented in this brilliant article:
+
+[Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
+
+The full code can fount in the source file `htmx_forms.js`;
+here below I will briefly summarize a simplified form of the most significant steps.
+
+We start by taking care of the submit button embedded in the form.
+While it's useful and necessary for the rendering of a standalone page, it's
+rather disturbing in the modal dialog.
+
+So, we'll hide it, and use the "Save" button from the footer instead.
+
+
+```javascript
+// use footer save button, if available
+let btn_save = footer.querySelector('.btn-save');
+if (self.options.button_save_label !== null && btn_save) {
+
+    let submit_row = form.querySelector('.form-submit-row');
+    if (submit_row) {
+        submit_row.style.display = 'none';
+    }
+    self._off(btn_save);
+    btn_save = footer.querySelector('.btn-save');
+
+    btn_save.addEventListener('click', function(event) {
+        form.requestSubmit();
+    });
+
+    btn_save.style.display = 'block';
+}
+```
+
+Then, we proceed by hijacking the form submission:
+
+```javascript
+// bind to the form’s submit event
+form.addEventListener('submit', function(event) {
+
+    // prevent the form from performing its default submit action
+    event.preventDefault();
+
+    // serialize the form’s content and send via an AJAX call
+    // using the form’s defined method and action
+    let url = form.getAttribute('action') || self.options.url;
+    let method = form.getAttribute('method') || 'post';
+    let data = new FormData(form);
+
+    let promise = fetch(
+        url, {
+            method: method,
+            body: data,
+            mode: 'cors',   // 'no-cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                // make sure request.is_ajax() return True on the server
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }
+    );
+    promise.then(response => {
+```
+
+Finally, we need to detect any form errors after submission, and either
+repeat the whole process or close the dialog:
+
+```javascript
+...
+if (form.querySelectorAll('.has-error').length > 0 || form.querySelectorAll('.errorlist').length > 0) {
+    self._notify('loaded', {url: url});
+    self._form_ajax_submit(true);
+} else {
+    // otherwise, we've done and can close the modal
+    self._notify('submitted', {method: method, url: url, data: data});
+    self.close();
+}
+```
+
+One last detail: during content loading, we add a "loading" class to the dialog header,
+to make a spinner icon visible until we're ready to either update or close the modal.
+
+## Giving a feedback after successful form submission
+
+Sometimes, you might want to notify the user after successful form submission.
+
+To obtain this, all you have to do, after the form has been validated and saved,
+is to return an HTML fragment with no forms in it; in this case:
+
+- the popup will not close
+- the "save" button will be hidden
+
+thus giving to the user a chance to read your feedback.
+
+### Example
+
+
+
+
+
+
+
+
+
+
+
+
+
+# HTMX
+
+The solutions presented to far do not require HTMX.
+
+In some cases, it's appropriate to get rid of unnecessary dependencies.
+
+Having said this, we will now investigate how HTML can help us in obtaining
+the same results writing less javascript.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Resources
 
+- [Use Django's Class-Based Views with Bootstrap Modals](https://dmorgan.info/posts/django-views-bootstrap-modals/)
 - [How to implement modal popup django forms with bootstrap](https://www.abidibo.net/blog/2014/05/26/how-implement-modal-popup-django-forms-bootstrap/)
-
 - [Custom Modal Dialogs](https://htmx.org/examples/modal-custom/)
 - [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
 - [Modal forms with Django+HTMX](https://blog.benoitblanchon.fr/django-htmx-modal-form/)
 - [Modal forms with Django+HTMX (video)](https://www.youtube.com/watch?v=3dyQigrEj8A&ab_channel=BenoitBlanchon)
 - [DiangoTricks: How to Handle Django Forms within Modal Dialogs](https://djangotricks.blogspot.com/2022/10/how-to-handle-django-forms-within-modal-dialogs.html)
-

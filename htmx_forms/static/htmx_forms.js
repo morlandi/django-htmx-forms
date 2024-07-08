@@ -355,7 +355,7 @@ window.HtmxForms = (function() {
             if (self.options.url) {
                 self._load();
                 // the following has been moved inside _load() as we are not able to
-                // read the reponse content (which is itself a provise) twice
+                // read the response content (which is itself a promise) twice
 
                 //    var form = self.element.find('.dialog-content .dialog-body form');
                 //    if (form.length == 1) {
