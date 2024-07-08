@@ -24,3 +24,16 @@ class PopupForm(forms.Form):
         messages.info(request, 'Form has been saved with data: "%s"' % str(self.cleaned_data))
 
 
+class SimpleForm(forms.Form):
+
+    value = forms.IntegerField(required=True, label='value', help_text='Enter a value between 1 and 10')
+
+    def save(self):
+        return True
+
+    def clean_value(self):
+        value = self.cleaned_data['value']
+        if value is not None:
+            if value < 1 or value > 10:
+                raise forms.ValidationError('This value is not accepteble')
+        return value

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from .forms import UserForm
 from .forms import PopupForm
+from .forms import SimpleForm
 
 
 def index(request):
@@ -82,55 +83,26 @@ def popup(request):
 
 
 def form_submission_example(request):
-    #time.sleep(1)
-    # Either render only the modal content, or a full standalone page
+    # time.sleep(1)
     is_ajax_request = request.accepts("application/json")
+
+    # Either render only the modal content, or a full standalone page
     if is_ajax_request:
         template_name = 'htmx_forms/generic_form_inner.html'
     else:
         template_name = 'htmx_forms/generic_form.html'
+
+    if request.method == 'POST':
+        form = SimpleForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            if not is_ajax_request:
+                messages.info(request, "Form has been validated")
+            else:
+                return HttpResponse("<h1>Great !</h1> Your form has been validated")
+    else:
+        form = SimpleForm()
+
     return render(request, template_name, {
-        # 'form': form,
-        # 'action': reverse('frontend:popup'),
+        'form': form,
     })
-
-
-# class SimpleForm(forms.Form):
-
-#     value = forms.IntegerField(required=True, label='value', help_text='Enter a value between 1 and 10')
-
-#     def save(self):
-#         return True
-
-#     def clean_value(self):
-#         value = self.cleaned_data['value']
-#         if value is not None:
-#             if value < 1 or value > 10:
-#                 raise forms.ValidationError('This value is not accepteble')
-#         return value
-
-# def form_validation_with_feedback(request):
-
-#     simulate_network_latency()
-
-#     if is_ajax(request):
-#         template_name = 'dialogs/simple_form_inner.html'
-#     else:
-#         template_name = 'dialogs/simple_form.html'
-
-#     if request.method == 'POST':
-#         form = SimpleForm(data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             if not is_ajax(request):
-#                 messages.info(request, "Form has been validated")
-#             else:
-#                 return HttpResponse("<h1>Great !</h1> Your form has been validated")
-#     else:
-#         form = SimpleForm()
-
-#     return render(request, template_name, {
-#         'action': reverse('samples:form-validation-with-feedback'),
-#         'form': form,
-#     })
-

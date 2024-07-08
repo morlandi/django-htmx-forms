@@ -510,21 +510,80 @@ thus giving to the user a chance to read your feedback.
 
 ### Example
 
-*TODO ...*
-
-
-In the following example, a form is submitted from the modal, taking care of validation
-as describe above.
+In the following example, a form is rendered is a modal and later submitted,
+taking care of form validation as describe above.
 
 When the form validates, the user receives a feedback and the modal can be dismissed.
 
 The whole life cycle of the modal is fully controlled by the server.
 
+```html
+<a href="/form_submission_example/" onclick="dialog1.open(event); return false;">Form submission and validation ...</a>
+
+<script>
+    dialog1 = new HtmxForms.Dialog({
+        dialog_selector: '#dialog_generic',
+        html: '<h1>Loading ...</h1>',
+        width: '400px',
+        min_height: '200px',
+        title: '<i class="fa fa-calculator"></i> A numeric value is required ...',
+        button_save_initially_hidden: true,
+        enable_trace: true
+    });
+</script>
+```
+
+or, equivalently:
+
+```html
+<a href="/form_submission_example/"
+   onclick="new HtmxForms.Dialog().open(event); return false;"
+   data-html="<h1>Loading ...</h1>"
+   data-width="400px"
+   data-min-height="200px"
+   data-title="<i class='fa fa-calculator'></i> A numeric value is required ..."
+   data-button-save-initially-hidden="true"
+   data-enable-trace="true"
+   >
+    Form submission and validation ...
+</a>
+```
+
+where the url "/form_submission_example/" point to the following view:
+
+```python
+
+def form_submission_example(request):
+    time.sleep(1)
+    is_ajax_request = request.accepts("application/json")
+
+    if request.method == 'POST':
+        form = SimpleForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse("<h1>Great !</h1> Your form has been validated")
+    else:
+        form = SimpleForm()
+
+    return render(request, template_name, {
+        'form': form,
+    })
 
 
 
+class SimpleForm(forms.Form):
+    value = forms.IntegerField(required=True, label='value', help_text='Enter a value between 1 and 10')
 
+    def save(self):
+        return True
 
+    def clean_value(self):
+        value = self.cleaned_data['value']
+        if value is not None:
+            if value < 1 or value > 10:
+                raise forms.ValidationError('This value is not accepteble')
+        return value
+```
 
 
 # HTMX
