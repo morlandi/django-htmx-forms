@@ -513,7 +513,12 @@ thus giving to the user a chance to read your feedback.
 *TODO ...*
 
 
+In the following example, a form is submitted from the modal, taking care of validation
+as describe above.
 
+When the form validates, the user receives a feedback and the modal can be dismissed.
+
+The whole life cycle of the modal is fully controlled by the server.
 
 
 

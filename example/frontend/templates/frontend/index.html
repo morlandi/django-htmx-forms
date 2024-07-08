@@ -6,6 +6,8 @@
     <div>Pages:</div>
     <ul>
         <li><a href="/basic_dialog">Basic Dialogs ...</a></li>
+        <li><a href="/form_submission_example" onclick="dialog1.open(event); return false;">Form submission and validation ...</a></li>
+
         <li><a href="/modal_forms_with_django_and_htmx">modal_forms_with_django_and_htmx</a></li>
     </ul>
 
@@ -16,3 +18,20 @@
     </div>
 
 {% endblock content %}
+
+
+
+{% block extrajavascript %}
+<script>
+    dialog1 = new HtmxForms.Dialog({
+        url: "{% url 'frontend:form_submission_example' %}",
+        dialog_selector: '#dialog_generic',
+        html: '<h1>Loading ...</h1>',
+        width: '400px',
+        min_height: '200px',
+        title: '<i class="fa fa-calculator"></i> Enter a numeric value ...',
+        button_save_initially_hidden: true,
+        enable_trace: true
+    });
+</script>
+{% endblock extrajavascript %}

@@ -12,4 +12,5 @@ urlpatterns = [
     path('user_list/', views.user_list, name="user_list"),
     path('basic_dialog/', views.basic_dialog, name="basic_dialog"),
     path('popup/', views.popup, name="popup"),
+    path('form_submission_example/', views.form_submission_example, name="form_submission_example"),
 ]
