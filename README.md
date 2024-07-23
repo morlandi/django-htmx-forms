@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 Include library's views mapping (file `urls.py`):
 
+**NOTE: THE FOLLOWING IS NOT REQUIRED NOR POSSIBLE AT THE MOMENT**
 
 ```python
 urlpatterns = [
@@ -170,6 +171,20 @@ dialog1 = new HtmxForms.Dialog({
     ...
     url: "/some-remote-endpoint/",
     ...
+```
+
+You can obtain the same result within a single HTML tag:
+
+```html
+    <a href="/some-remote-endpoint/"
+       onclick="new HtmxForms.Dialog().open(event); return false;"
+       data-html="<h1>Loading ...</h1>"
+       data-width="600px"
+       data-min-height="200px"
+       data-title="<i class='fa fa-calculator'></i> Select an object ..."
+       data-button-save-initially-hidden="true"
+       data-enable-trace="true"
+       >
 ```
 
 ## Modal and/or standalone pages
