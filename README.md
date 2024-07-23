@@ -176,15 +176,17 @@ dialog1 = new HtmxForms.Dialog({
 You can obtain the same result within a single HTML tag:
 
 ```html
-    <a href="/some-remote-endpoint/"
-       onclick="new HtmxForms.Dialog().open(event); return false;"
-       data-html="<h1>Loading ...</h1>"
-       data-width="600px"
-       data-min-height="200px"
-       data-title="<i class='fa fa-calculator'></i> Select an object ..."
-       data-button-save-initially-hidden="true"
-       data-enable-trace="true"
-       >
+<a href="/some-remote-endpoint/"
+   onclick="new HtmxForms.Dialog().open(event); return false;"
+   data-html="<h1>Loading ...</h1>"
+   data-width="600px"
+   data-min-height="200px"
+   data-title="<i class='fa fa-calculator'></i> Select an object ..."
+   data-button-save-initially-hidden="true"
+   data-enable-trace="true"
+   >
+   Sample dialog ...
+</a>
 ```
 
 ## Modal and/or standalone pages
