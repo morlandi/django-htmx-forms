@@ -631,6 +631,24 @@ This is nice, since in some contexts it's convinient to avoid any external depen
 Having said this, we will now investigate how HTML can help us in obtaining
 the same results writing less javascript.
 
+## Calling htmx.process() after loading
+
+When you have content that is added to the DOM outside of the normal htmx request cycle
+but still want htmx attributes to work, you need to explicitly call the Javascript
+API `htmx.process()`.
+
+This is required for enabling htmx behaviour as explained here: https://htmx.org/api/#process.
+
+At the moment, we do this whenever a `loaded` event is fired:
+
+```javascript
+    if (event_name === 'loaded') {
+        if (typeof htmx !== 'undefined') {
+            htmx.process(self.element);
+        }
+    }
+```
+
 
 *TODO ...*
 

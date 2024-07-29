@@ -88,6 +88,18 @@ window.HtmxForms = (function() {
 
         _notify(event_name, params={}) {
             let self = this;
+
+            if (event_name === 'loaded') {
+                // Processes new content, enabling htmx behavior.
+                // This can be useful if you have content that is added to the DOM
+                // outside of the normal htmx request cycle
+                // but still want htmx attributes to work.
+                if (typeof htmx !== 'undefined') {
+                    //console.log('htmx.process() ...');
+                    htmx.process(self.element);
+                }
+            }
+
             if (self.options.enable_trace) {
                 console.log('[Dialog ' + event_name + '] dialog: %o; params:%o', self, params);
             }
