@@ -154,6 +154,10 @@ window.HtmxForms = (function() {
                 if (!options.title) options.title = target.dataset.title || '';
                 if (!options.subtitle) options.subtitle = target.dataset.subtitle || '';
                 if (!options.footer_text) options.footer_text = target.dataset.footerText || '';
+
+                if ('enableTrace' in target.dataset) {
+                    options.enable_trace = (target.dataset.enableTrace === 'true');
+                }
             }
 
             self.options.open_event = open_event;
@@ -220,28 +224,6 @@ window.HtmxForms = (function() {
 
             self._notify('loading', {url: self.options.url});
             header.classList.add('loading');
-
-            /*
-            var promise = $.ajax({
-                type: 'GET',
-                url: self.options.url,
-                cache: false,
-                crossDomain: true,
-                headers: {
-                    // make sure request.is_ajax() return True on the server
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).done(function(data, textStatus, jqXHR) {
-                self.element.find('.dialog-body').html(data);
-                self._notify('loaded', {url: self.options.url, data: data});
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                self._notify('loading_failed', {jqXHR: jqXHR, textStatus: textStatus, errorThrown: errorThrown});
-                console.log('ERROR: errorThrown=%o, textStatus=%o, jqXHR=%o', errorThrown, textStatus, jqXHR);
-                HtmxForms.display_server_error(errorThrown);
-            }).always(function() {
-                header.removeClass('loading');
-            });
-            */
 
             let promise = fetch(
                 self.options.url, {
@@ -379,24 +361,26 @@ window.HtmxForms = (function() {
             let btn_save = footer.querySelector('.btn-save');
             if (self.options.button_save_label !== null && btn_save) {
 
+                // Hide submit row, if any
                 let submit_row = form.querySelector('.form-submit-row');
                 if (submit_row) {
                     submit_row.style.display = 'none';
                 }
-                //btn_save.off().on('click', function(event) {
-                //    form.submit();
-                //});
+
+                // Also, hide all submit buttons, if any
+                for (const button of form.querySelectorAll('input[type="submit"]')) {
+                    button.style.display = 'none';
+                }
+
                 self._off(btn_save);
                 btn_save = footer.querySelector('.btn-save');
 
                 btn_save.addEventListener('click', function(event) {
-                    //form.submit();
                     form.requestSubmit();
                 });
 
                 btn_save.style.display = 'block';
             }
-
 
             // Give focus to first visible form field
             if (self.options.autofocus_first_visible_input) {
@@ -477,9 +461,11 @@ window.HtmxForms = (function() {
                                     // If xhr contains any field errors,
                                     // the form did not validate successfully,
                                     // so we keep it open for further editing
-                                    //if (jQuery(xhr).find('.has-error').length > 0) {
+                                    let has_errors = form.querySelectorAll('.has-error').length > 0 ||
+                                        form.querySelectorAll('.is-invalid').length > 0 ||
+                                        form.querySelectorAll('.errorlist').length > 0;
 
-                                    if (form.querySelectorAll('.has-error').length > 0 || form.querySelectorAll('.errorlist').length > 0) {
+                                    if (has_errors) {
                                         self._notify('loaded', {url: url});
                                         self._form_ajax_submit(true);
                                     } else {
@@ -510,63 +496,6 @@ window.HtmxForms = (function() {
                 }).finally(() => {
                     header.classList.remove('loading');
                 });
-
-                /*
-                $.ajax({
-                    type: method,
-                    url: url,
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    crossDomain: true,
-                    headers: {
-                        // make sure request.is_ajax() return True on the server
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                }).done(function(xhr, textStatus, jqXHR) {
-
-                    // update the modal body with the new form
-                    body.html(xhr);
-
-                    // Does the response contain a form ?
-                    var form = self.element.find('.dialog-content .dialog-body form');
-                    if (form.length > 0) {
-                        // If the server sends back a successful response,
-                        // we need to further check the HTML received
-
-                        // If xhr contains any field errors,
-                        // the form did not validate successfully,
-                        // so we keep it open for further editing
-                        //if (jQuery(xhr).find('.has-error').length > 0) {
-                        if (jQuery(xhr).find('.has-error').length > 0 || jQuery(xhr).find('.errorlist').length > 0) {
-                            self._notify('loaded', {url: url});
-                            self._form_ajax_submit(true);
-                        } else {
-                            // otherwise, we've done and can close the modal
-                            self._notify('submitted', {method: method, url: url, data: data});
-                            self.close();
-                        }
-                    }
-                    // If not, assume we received a feedback for the user after successfull submission, so:
-                    // - keep the dialog open
-                    // - hide the save button
-                    else {
-                        // We also notify the user about successful submission
-                        self._notify('submitted', {method: method, url: url, data: data});
-                        btn_save.hide();
-                    }
-
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    self._notify('submission_failure', {method: method, url: url, data:data});
-                    console.error('ERROR: errorThrown=%o, textStatus=%o, jqXHR=%o', errorThrown, textStatus, jqXHR);
-                    console.error(jqXHR.responseText);
-                    HtmxForms.display_server_error(errorThrown);
-                }).always(function() {
-                    header.removeClass('loading');
-                });
-
-                */
             });
         }
     }

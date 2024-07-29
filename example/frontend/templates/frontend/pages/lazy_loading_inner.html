@@ -1,0 +1,15 @@
+
+<style>
+    .htmx-settling img { opacity: 0; }
+    img {
+        transition: opacity 1000ms ease-in;
+    }
+    img.htmx-indicator {
+        padding:  60px;
+    }
+    .dialog .dialog-content .dialog-body { padding: 0;  }
+</style>
+
+<div hx-get="/graph" hx-trigger="load">
+    <img  alt="Result loading..." class="htmx-indicator" width="150" src="/static/images/bars.svg"/>
+</div>

@@ -3,13 +3,16 @@
 {% block content %}
     <h1>index</h1>
 
-    <div>Pages:</div>
+    <h3>Basic dialogs...</h3>
     <ul>
         <li>
-            <a href="/basic_dialog">Basic Dialogs ...</a>
+            <a href="" onclick="dialog1.open(event); return false;">A Static Dialog</a>
         </li>
         <li>
-            <a href="/form_submission_example/" onclick="dialog1.open(event); return false;">Form submission and validation ...</a>
+            <a href="/popup/" onclick="dialog2.open(event); return false;">Test Form submission (/popup/)</a>
+        </li>
+        <li>
+            <a href="/form_submission_example/" onclick="dialog3.open(event); return false;">Form submission and validation</a>
         </li>
         <li>
             <a href="/form_submission_example/"
@@ -21,13 +24,21 @@
                data-button-save-initially-hidden="true"
                data-enable-trace="true"
                >
-                Form submission and validation (equivalent to the one above) ...
+                Form submission and validation (equivalent to the one above, but embedded in an HTML tag)
             </a>
         </li>
         <li>
-            <a href="/form_submission_example/">The same form in a standalone HTML page ...</a>
+            <a href="/form_submission_example/">The same form in a standalone HTML page</a>
+        </li>
+    </ul>
+
+    <h3>More ...</h3>
+    <ul>
+        <li>
+            <a href="/lazy-loading/">Lazy loading ...</a>
         </li>
         <li>
+            <hr />
             <a href="/modal_forms_with_django_and_htmx">modal_forms_with_django_and_htmx</a>
         </li>
     </ul>
@@ -49,7 +60,44 @@
 
 {% block extrajavascript %}
 <script>
+
     dialog1 = new HtmxForms.Dialog({
+        html: '<h1>A static dialog</h1>',
+        width: '400px',
+        min_height: '200px',
+        title: '<i class="fa fa-calculator"></i> Selezione Oggetto',
+        footer_text: 'testing dialog ...',
+        enable_trace: true,
+        callback: function(event_name, dialog, params) {
+            switch (event_name) {
+                case "created":
+                    console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                    break;
+            }
+        }
+    });
+
+    dialog2 = new HtmxForms.Dialog({
+        html: '<h1>Loading ...</h1>',
+        url: '/popup/',
+        width: '400px',
+        min_height: '200px',
+        title: '<i class="fa fa-calculator"></i> Selezione Oggetto',
+        footer_text: 'testing dialog ...',
+        enable_trace: true,
+        callback: function(event_name, dialog, params) {
+            switch (event_name) {
+                case "created":
+                    console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                    break;
+                case "submitted":
+                    HtmxForms.reload_page(show_layer=true);
+                    break;
+            }
+        }
+    });
+
+    dialog3 = new HtmxForms.Dialog({
         dialog_selector: '#dialog_generic',
         html: '<h1>Loading ...</h1>',
         width: '400px',
@@ -58,5 +106,6 @@
         button_save_initially_hidden: true,
         enable_trace: true
     });
+
 </script>
 {% endblock extrajavascript %}

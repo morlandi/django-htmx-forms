@@ -100,3 +100,18 @@ def form_submission_example(request):
     return render(request, template_name, {
         'form': form,
     })
+
+
+def graph(request):
+    time.sleep(1.0)
+    return HttpResponse("<img alt='Tokyo Climate' src='/static/images/tokyo.png'>")
+
+
+def lazy_loading(request):
+    is_ajax_request = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+    if is_ajax_request:
+        template_name = "frontend/pages/lazy_loading_inner.html"
+    else:
+        template_name = "frontend/pages/lazy_loading.html"
+    return render(request, template_name, {
+    })

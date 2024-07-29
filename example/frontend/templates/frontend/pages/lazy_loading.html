@@ -1,0 +1,44 @@
+{% extends 'frontend/base.html' %}
+{% load markup %}
+
+{% block content %}
+
+    <h1>Lazy loading</h1>
+    <a href="https://htmx.org/examples/lazy-load/">Adapted from https://htmx.org/examples/lazy-load/</a>
+
+    <hr />
+    <button href="/lazy-loading/" onclick="dialog1.open(event); return false;">Open modal</button>
+    <hr />
+
+    {% include 'frontend/pages/lazy_loading_inner.html' %}
+
+{% filter markdown %}
+{% endfilter markdown %}
+
+{% endblock content %}
+
+{% block extrajavascript %}
+<script>
+    dialog1 = new HtmxForms.Dialog({
+        html: '<h1>loading ...</h1>',
+        width: '554px',
+        min_height: '340px',
+        title: '<i class="fa fa-calculator"></i> Lazy Loading',
+        footer_text: '',
+        button_save_label: '',
+        button_close_label: 'Close',
+        enable_trace: true,
+        callback: function(event_name, dialog, params) {
+            switch (event_name) {
+                case "created":
+                    console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                    break;
+                case "loaded":
+                    //htmx.process(document.body);
+                    break;
+            }
+        }
+    });
+</script>
+{% endblock extrajavascript %}
+
