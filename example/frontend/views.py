@@ -45,20 +45,13 @@ def add_user(request):
     })
 
 
-def basic_dialog(request) :
-    return render(
-        request,
-        'frontend/basic_dialog.html', {
-        }
-    )
-
-
 def popup(request):
 
-    time.sleep(1)
+    time.sleep(0.1)
 
     try:
-        is_ajax_request = request.accepts("application/json")
+        #is_ajax_request = request.accepts("application/json")
+        is_ajax_request = request.headers.get('x-requested-with') == 'XMLHttpRequest'
     except AttributeError as e:
         # Django < 4.0
         is_ajax_request = request.is_ajax()
@@ -84,7 +77,8 @@ def popup(request):
 
 def form_submission_example(request):
     # time.sleep(1)
-    is_ajax_request = request.accepts("application/json")
+    #is_ajax_request = request.accepts("application/json")
+    is_ajax_request = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
     # Either render only the modal content, or a full standalone page
     if is_ajax_request:

@@ -205,7 +205,8 @@ This can be easily accomplished providing:
 def simple_content2(request):
 
     try:
-        is_ajax_request = request.accepts("application/json")
+        #is_ajax_request = request.accepts("application/json")
+        is_ajax_request = request.headers.get('x-requested-with') == 'XMLHttpRequest'
     except AttributeError as e:
         # Django < 4.0
         is_ajax_request = request.is_ajax()
@@ -596,7 +597,8 @@ form both in a modal or in a standalone page:
 
 ```python
 def form_submission_example(request):
-    is_ajax_request = request.accepts("application/json")
+    #is_ajax_request = request.accepts("application/json")
+    is_ajax_request = request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
     # Either render only the modal content, or a full standalone page
     if is_ajax_request:
