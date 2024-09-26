@@ -153,7 +153,8 @@ window.HtmxForms = (function() {
             if (open_event && open_event.target) {
                 let target = open_event.target;
                 let options = self.options;
-                if (!options.url) options.url = target.getAttribute('href') || '';
+                //if (!options.url) options.url = target.getAttribute('href') || '';
+                if (!options.url && options.url!==null) options.url = target.getAttribute('href') || '';
                 if (!options.html) options.html = target.dataset.html || '';
                 if (!options.width) options.width = target.dataset.width || '';
                 if (!options.min_width) options.min_width = target.dataset.minWidth || '';
