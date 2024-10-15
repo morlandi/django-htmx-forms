@@ -159,7 +159,9 @@ dialog1 = new HtmxForms.Dialog({
 dialog1.open()
 ```
 
-![image](./etc/screenshots/static_dialog.png)
+![a static dialog](./etc/screenshots/static_dialog.png)
+
+<i>A static dialog</i>
 
 
 ### A dynamic Dialog
@@ -407,6 +409,10 @@ when a form is detected in the content downloaded from the server.
 
 It keeps refreshing the modal after each submission while validation errors
 are detected, and dismisses it only when the form validation finally succeedes.
+
+![form submission and validation](./etc/screenshots/form_submission_and_validation.png)
+
+<i>Form submission and validation</i>
 
 ## Implementation
 
