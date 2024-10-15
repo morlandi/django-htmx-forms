@@ -581,15 +581,45 @@ window.HtmxForms = (function() {
         // https://stackoverflow.com/questions/9681080/changing-cursor-to-waiting-in-javascript-jquery#25207986
         document.querySelector('body').style.cursor = 'none';
     }
+
     function getCookie(name) {
         var value = '; ' + document.cookie,
             parts = value.split('; ' + name + '=');
         if (parts.length == 2) return parts.pop().split(';').shift();
     }
 
-    function display_server_error(message) {
-        // TODO: add something more appropriate here
-        alert(message);
+    // Adapts canvas size to desired size;
+    function adjust_canvas_size(id) {
+    /*
+        Usage:
+
+            <canvas id="{{client.id}}-chart1" style="width: 100%; height:200px;">
+            </canvas>
+
+            ...
+
+            <script type="text/javascript">
+                adjust_canvas_size("{{client.id}}-chart1");
+            < /script>
+
+        Adapted from:
+        https://stackoverflow.com/questions/18679414/how-put-percentage-width-into-html-canvas-no-css#18680851
+    */
+
+        /// get computed style for canvas
+        var canvas = document.getElementById(id);
+        var cs = getComputedStyle(canvas);
+
+        /// these will return dimensions in *pixel* regardless of what
+        /// you originally specified for image:
+        var width = parseInt(cs.getPropertyValue('width'), 10);
+        var height = parseInt(cs.getPropertyValue('height'), 10);
+
+        // /// now use this as width and height for your canvas element:
+        // var canvas = document.getElementById(id);
+
+        canvas.width = width;
+        canvas.height = height;
     }
 
     // http://stackoverflow.com/questions/16086162/handle-file-download-from-ajax-post#23797348
@@ -657,6 +687,17 @@ window.HtmxForms = (function() {
         xhr.send($.param(params));
     }
 
+    function display_server_error(message) {
+        // TODO: add something more appropriate here
+        alert(message);
+    }
+
+    function display_message(html_content) {
+        // TODO: add something more appropriate here
+        alert(message);
+    }
+
+
     return {
         Dialog,
         redirect: redirect,
@@ -664,9 +705,12 @@ window.HtmxForms = (function() {
         reload_page: reload_page,
         overlay_show: overlay_show,
         overlay_hide: overlay_hide,
+        hide_mouse_cursor: hide_mouse_cursor,
         getCookie: getCookie,
+        adjust_canvas_size: adjust_canvas_size,
+        downloadFromAjaxPost: downloadFromAjaxPost,
         display_server_error: display_server_error,
-        downloadFromAjaxPost: downloadFromAjaxPost
+        display_message: display_message
     };
 
 })();

@@ -632,6 +632,49 @@ def form_submission_example(request):
     })
 ```
 
+# Javascript utilities
+
+A few utilities have been. included for convenience:
+
+| Helper                                               | Purpose                                                                              |   |
+|------------------------------------------------------|--------------------------------------------------------------------------------------|---|
+| redirect(url, show_overlay=False)                    | Similar behavior as an HTTP redirect; optionally calls overlay_show('body')          |   |
+| gotourl(url, show_overlay=False)                     | Similar behavior as clicking on a link; optionally calls overlay_show('body')        |   |
+| reload_page(show_overlay=False)                      | Reload the current page; optionally calls overlay_show('body')                       |   |
+| overlay_show(element)                                | Show overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |   |
+| overlay_hide(element)                                | Hide overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |   |
+| hide_mouse_cursor                                    | Hide the mouse cursor                                                                |   |
+| getCookie(name)                                      | Add to POST headers as follows: HtmxForms.getCookie('csrftoken')                     |   |
+| adjust_canvas_size(id)                               | Adapts canvas size to desired size                                                   |   |
+| downloadFromAjaxPost(url, params, headers, callback) | Handle file download from ajax post                                                  |   |
+| display_server_error(errorDetails)                   | Display an error message; to be refined                                              |   |
+| display_message(html_content)                        | Display a message; to be refined                                                     |   |
+
+
+### Example:
+
+```javascript
+    dialog1 = new HtmxForms.Dialog({
+        html: '<h1>Loading ...</h1>',
+        url: '/popup/',
+        width: '400px',
+        min_height: '200px',
+        title: '<i class="fa fa-calculator"></i> Select Object',
+        footer_text: 'testing dialog ...',
+        enable_trace: true,
+        callback: function(event_name, dialog, params) {
+            switch (event_name) {
+                case "created":
+                    console.log('Dialog created: dialog=%o, params=%o', dialog, params);
+                    break;
+                case "submitted":
+                    HtmxForms.reload_page(show_layer=true);
+                    break;
+            }
+        }
+    });
+```
+
 # HTMX
 
 **The solutions discussed so far do not require HTMX**.
@@ -662,6 +705,15 @@ At the moment, we do this whenever a `loaded` event is fired:
 
 *TODO ...*
 
+## Example: lazy loading
+
+See: https://github.com/morlandi/django-htmx-forms/blob/d09583c506cacbb15c08da0a744f4c924a015ba1/example/frontend/views.py#L110
+
+Adapted from: https://htmx.org/examples/lazy-load/
+
+![lazy loading](./etc/screenshots/lazy_loading.png)
+
+<i>Lazy loading</i>
 
 
 # Resources

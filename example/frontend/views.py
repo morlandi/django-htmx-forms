@@ -103,7 +103,7 @@ def form_submission_example(request):
 
 
 def graph(request):
-    time.sleep(1.0)
+    time.sleep(2.0)
     return HttpResponse("<img alt='Tokyo Climate' src='/static/images/tokyo.png'>")
 
 
