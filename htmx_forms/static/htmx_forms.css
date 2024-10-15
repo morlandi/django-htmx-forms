@@ -18,6 +18,7 @@
     /* background-color: rgba(0,0,0,0.4); */
     background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
 
+    background-color: rgb(255, 255, 255)
 }
 
 .dialog.draggable .dialog-header {
