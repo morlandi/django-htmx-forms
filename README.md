@@ -634,7 +634,7 @@ def form_submission_example(request):
 
 # Javascript utilities
 
-A few utilities have been. included for convenience:
+A few utilities have been included for convenience:
 
 | Helper                                               | Purpose                                                                              |   |
 |------------------------------------------------------|--------------------------------------------------------------------------------------|---|
