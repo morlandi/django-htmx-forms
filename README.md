@@ -46,7 +46,8 @@ Include library's views mapping (file `urls.py`):
 ```python
 urlpatterns = [
     ...
-    path('htmx_forms/', include('htmx_forms.urls', namespace='htmx_forms')),
+    # NOT required, not possible .. yet
+    #path('htmx_forms/', include('htmx_forms.urls', namespace='htmx_forms')),
     ...
 ```
 
@@ -157,6 +158,9 @@ dialog1 = new HtmxForms.Dialog({
 
 dialog1.open()
 ```
+
+![image](./etc/screenshots/static_dialog.png)
+
 
 ### A dynamic Dialog
 

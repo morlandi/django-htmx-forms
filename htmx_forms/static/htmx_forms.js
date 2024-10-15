@@ -152,6 +152,8 @@ window.HtmxForms = (function() {
             // Retrieve missing options from open_event
             if (open_event && open_event.target) {
                 let target = open_event.target;
+                open_event.preventDefault();
+
                 let options = self.options;
                 //if (!options.url) options.url = target.getAttribute('href') || '';
                 if (!options.url && options.url!==null) options.url = target.getAttribute('href') || '';
