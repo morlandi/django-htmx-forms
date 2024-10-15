@@ -636,19 +636,19 @@ def form_submission_example(request):
 
 A few utilities have been included for convenience:
 
-| Helper                                               | Purpose                                                                              |   |
-|------------------------------------------------------|--------------------------------------------------------------------------------------|---|
-| redirect(url, show_overlay=False)                    | Similar behavior as an HTTP redirect; optionally calls overlay_show('body')          |   |
-| gotourl(url, show_overlay=False)                     | Similar behavior as clicking on a link; optionally calls overlay_show('body')        |   |
-| reload_page(show_overlay=False)                      | Reload the current page; optionally calls overlay_show('body')                       |   |
-| overlay_show(element)                                | Show overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |   |
-| overlay_hide(element)                                | Hide overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |   |
-| hide_mouse_cursor                                    | Hide the mouse cursor                                                                |   |
-| getCookie(name)                                      | Add to POST headers as follows: HtmxForms.getCookie('csrftoken')                     |   |
-| adjust_canvas_size(id)                               | Adapts canvas size to desired size                                                   |   |
-| downloadFromAjaxPost(url, params, headers, callback) | Handle file download from ajax post                                                  |   |
-| display_server_error(errorDetails)                   | Display an error message; to be refined                                              |   |
-| display_message(html_content)                        | Display a message; to be refined                                                     |   |
+| Helper                                               | Purpose                                                                              |
+|------------------------------------------------------|--------------------------------------------------------------------------------------|
+| redirect(url, show_overlay=False)                    | Similar behavior as an HTTP redirect; optionally calls overlay_show('body')          |
+| gotourl(url, show_overlay=False)                     | Similar behavior as clicking on a link; optionally calls overlay_show('body')        |
+| reload_page(show_overlay=False)                      | Reload the current page; optionally calls overlay_show('body')                       |
+| overlay_show(element)                                | Show overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |
+| overlay_hide(element)                                | Hide overlay on given element; Requires: {% include 'frontend_forms/overlay.html' %} |
+| hide_mouse_cursor                                    | Hide the mouse cursor                                                                |
+| getCookie(name)                                      | Add to POST headers as follows: HtmxForms.getCookie('csrftoken')                     |
+| adjust_canvas_size(id)                               | Adapts canvas size to desired size                                                   |
+| downloadFromAjaxPost(url, params, headers, callback) | Handle file download from ajax post                                                  |
+| display_server_error(errorDetails)                   | Display an error message; to be refined                                              |
+| display_message(html_content)                        | Display a message; to be refined                                                     |
 
 
 ### Example:
